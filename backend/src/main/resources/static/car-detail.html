@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚗 Détails de la voiture</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .car-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin: 15px 0;
+    }
+    .qrcode {
+      width: 180px;
+      height: 180px;
+      border: 1px dashed #ccc;
+      margin-top: 10px;
+    }
+    .price {
+      font-size: 1.5em;
+      color: #e63946;
+      font-weight: bold;
+    }
+    h1 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="car-container">
+    <h1>Détails de la voiture</h1>
+    <p>Chargement des informations...</p>
+  </div>
+
+  <script>
+    // 1. Récupérer l'ID depuis l'URL : car-detail.html?id=5
+    const urlParams = new URLSearchParams(window.location.search);
+    const carId = urlParams.get('id');
+
+    if (!carId) {
+      document.getElementById('car-container').innerHTML = '<p style="color:red;">Erreur : Aucun ID fourni.</p>';
+      throw new Error('ID manquant');
+    }
+
+    // 2. Charger la voiture depuis l'API
+    fetch(`/api/cars/${carId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Voiture non trouvée");
+        }
+        return response.json();
+      })
+      .then(car => {
+        const container = document.getElementById('car-container');
+
+        const make = car.make || 'Inconnu';
+        const model = car.model || 'Inconnu';
+        const year = car.year || 'N/A';
+        const color = car.color || 'N/A';
+        const fuelType = car.fuelType || 'N/A';
+        const transmission = car.transmission || 'N/A';
+        const mileage = car.mileage || 'N/A';
+        const price = car.price ? new Intl.NumberFormat('fr-FR').format(car.price) : 'N/A';
+        const imageUrl = car.imageUrl || 'https://via.placeholder.com/600x300?text=Pas+d%27image';
+
+        // Afficher les détails
+        container.innerHTML = `
+          <h1>${make} ${model}</h1>
+          <p><strong>Année :</strong> ${year}</p>
+          <p><strong>Couleur :</strong> ${color}</p>
+          <p><strong>Carburant :</strong> ${fuelType}</p>
+          <p><strong>Transmission :</strong> ${transmission}</p>
+          <p><strong>Kilométrage :</strong> ${mileage} km</p>
+          <p class="price">${price} €</p>
+          <img class="car-image" src="${imageUrl}" alt="${make} ${model}" onerror="this.src='https://via.placeholder.com/600x300?text=Image+non+trouvée';">
+          
+          <h3>QR Code de cette fiche</h3>
+          <img class="qrcode" src="/api/cars/${car.id}/qrcode" alt="QR Code" onerror="this.src='https://via.placeholder.com/180?text=QR+Error';">
+        `;
+      })
+      .catch(err => {
+        document.getElementById('car-container').innerHTML = `
+          <p style="color:red;">Erreur : ${err.message}</p>
+          <p>Assurez-vous que l'API fonctionne et que l'ID est valide.</p>
+        `;
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!-- src/app/pages/cart/cart.component.html -->
+<div class="cart-container">
+  <!-- Header -->
+  <header class="cart-header">
+    <div class="logo">
+      <img src="assets/photos/logo.png" alt="Autocar Logo" />
+    </div>
+    <nav class="navbar">
+      <a routerLink="/home">Home</a>
+      <a routerLink="/gallery">Gallery</a>
+      <a routerLink="/about">About</a>
+      <a routerLink="/contact">Contact Us</a>
+    </nav>
+    <div class="phone">
+      <a href="tel:+963997843565">+963 997 843 565</a>
+    </div>
+  </header>
+
+  <!-- Cart Content -->
+  <div class="cart-content">
+    <!-- Hero Section -->
+    <section class="cart-hero">
+      <div class="hero-content">
+        <h1>VOTRE PANIER</h1>
+        <p>Révisez et gérez vos sélections de véhicules de luxe</p>
+      </div>
+    </section>
+
+    <!-- Cart Items Section -->
+    <section class="cart-items-section">
+      <div *ngIf="cartItems.length === 0" class="empty-cart">
+        <div class="empty-icon">🛒</div>
+        <h3>Votre panier est vide</h3>
+        <p>Explorez notre collection et ajoutez des véhicules à votre panier</p>
+        <a routerLink="/gallery" class="browse-btn">Parcourir la collection</a>
+      </div>
+
+      <div *ngIf="cartItems.length > 0" class="cart-with-items">
+        <div class="cart-header-info">
+          <h2>Vos véhicules sélectionnés</h2>
+          <p>{{ cartItems.length }} véhicule(s) dans votre panier</p>
+        </div>
+
+        <div class="cart-items">
+          <div class="cart-item" *ngFor="let car of cartItems">
+            <div class="item-image">
+              <img
+                [src]="'http://localhost:8080' + car.imageUrl"
+                [alt]="car.model"
+                (error)="onImageError($event)"
+              />
+            </div>
+            <div class="item-details">
+              <h3>{{ car.brand }} {{ car.model }}</h3>
+              <p class="item-year">{{ car.year }} • {{ car.color }}</p>
+              <div class="item-features">
+                <span>{{ car.fuelType }}</span>
+                <span>{{ car.transmission }}</span>
+              </div>
+            </div>
+            <div class="item-price">
+              <p class="price">{{ car.price | currency:'USD':'symbol':'1.0-0' }}</p>
+            </div>
+            <div class="item-actions">
+              <button (click)="removeFromCart(car)" class="remove-btn">
+                <span class="btn-icon">🗑️</span>
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-summary">
+          <div class="summary-card">
+            <h3>Récapitulatif de commande</h3>
+            <div class="summary-line">
+              <span>Sous-total ({{ cartItems.length }} véhicule(s)):</span>
+              <span>{{ getTotalPrice() | currency:'USD':'symbol':'1.0-0' }}</span>
+            </div>
+            <div class="summary-line">
+              <span>Frais de service:</span>
+              <span>Gratuit</span>
+            </div>
+            <div class="summary-total">
+              <span>Total:</span>
+              <span class="total-price">{{ getTotalPrice() | currency:'USD':'symbol':'1.0-0' }}</span>
+            </div>
+            <button  routerLink="/checkout" class="checkout-btn">Procéder au paiement</button>
+            <button (click)="clearCart()" class="clear-cart-btn">Vider le panier</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<app-footer></app-footer>

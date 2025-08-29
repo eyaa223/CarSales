@@ -1,0 +1,33 @@
+<h2>🔐 Sign Up</h2>
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <label>Username:</label><br />
+    <input type="text" formControlName="username" />
+    <div class="error" *ngIf="submitted && f['username'].errors">
+      <small *ngIf="f['username'].errors?.['required']">Username is required.</small>
+      <small *ngIf="f['username'].errors?.['minlength']">Minimum 3 characters.</small>
+    </div>
+  </div>
+
+  <div>
+    <label>Email:</label><br />
+    <input type="email" formControlName="email" />
+    <div class="error" *ngIf="submitted && f['email'].errors">
+      <small *ngIf="f['email'].errors?.['required']">Email is required.</small>
+      <small *ngIf="f['email'].errors?.['email']">Email is invalid.</small>
+    </div>
+  </div>
+
+  <div>
+    <label>Password:</label><br />
+    <input type="password" formControlName="password" />
+    <div class="error" *ngIf="submitted && f['password'].errors">
+      <small *ngIf="f['password'].errors?.['required']">Password is required.</small>
+      <small *ngIf="f['password'].errors?.['minlength']">Minimum 6 characters.</small>
+    </div>
+  </div>
+
+  <button type="submit">Sign Up</button>
+  <p>Already you have an account ? <a routerLink="/login">Login</a></p>
+</form>

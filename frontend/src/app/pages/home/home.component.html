@@ -1,0 +1,74 @@
+<!-- src/app/pages/home/home.component.html -->
+<div class="home-container">
+  <!-- Header -->
+  <header class="home-header">
+    <div class="logo">
+      <img src="assets/photos/logo.png" alt="Autocar Logo" />
+    </div>
+    <nav class="navbar">
+      <a routerLink="/home" class="active">Home</a>
+      <a routerLink="/gallery">Gallery</a>
+      <a routerLink="/about">About</a>
+      <a routerLink="/contact">Contact Us</a>
+    </nav>
+    <div class="phone">
+      <a href="tel:+963997843565">+963 997 843 565</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="home-hero">
+    <div class="hero-content">
+      <h1>NOTRE COLLECTION EXCLUSIVE</h1>
+      <p>Découvrez notre sélection de véhicules haut de gamme pour toutes vos occasions</p>
+    </div>
+  </section>
+
+  <!-- Featured Cars Section -->
+  <section class="featured-cars">
+    <div class="section-header">
+      <h2>Véhicules Vedettes</h2>
+      <p>Notre sélection de voitures premium</p>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement de notre collection...</p>
+    </div>
+
+    <div *ngIf="!isLoading && featuredCars.length === 0" class="no-cars">
+      <p>Aucune voiture disponible pour le moment.</p>
+    </div>
+
+    <div class="cars-grid" *ngIf="!isLoading && featuredCars.length > 0">
+      <div class="car-card" *ngFor="let car of featuredCars">
+        <div class="car-image">
+          <img
+            [src]="'http://localhost:8080' + car.imageUrl"
+            [alt]="car.model"
+            (error)="onImageError($event)"
+          />
+          <div class="car-overlay">
+            <button class="view-details-btn" [routerLink]="['/car', car.id]">Voir détails</button>
+          </div>
+        </div>
+        <div class="car-info">
+          <h3>{{ car.brand }} {{ car.model }}</h3>
+          <p class="car-year">{{ car.year }} • {{ car.color }}</p>
+          <div class="car-features">
+            <span>{{ car.fuelType }}</span>
+            <span>{{ car.transmission }}</span>
+          </div>
+          <p class="car-price">{{ car.price | currency:'USD':'symbol':'1.0-0' }}/jour</p>
+          <div class="car-actions">
+            <button class="add-to-cart-btn" (click)="addToCart(car)">Ajouter au panier</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-all-container" *ngIf="!isLoading && featuredCars.length > 0">
+      <a routerLink="/gallery" class="view-all-btn">Voir toute la collection</a>
+    </div>
+  </section>
+</div>

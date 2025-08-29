@@ -1,0 +1,101 @@
+<!-- src/app/pages/gallery/gallery.component.html -->
+<div class="gallery-container">
+  <!-- Header -->
+  <header class="gallery-header">
+    <div class="logo">
+      <img src="assets/photos/logo.png" alt="Autocar Logo" />
+    </div>
+    <nav class="navbar">
+      <a routerLink="/">Home</a>
+      <a routerLink="/gallery" class="active">Gallery</a>
+      <a routerLink="/about">About</a>
+      <a routerLink="/contact">Contact Us</a>
+    </nav>
+    <div class="phone">
+      <a href="tel:+963997843565">+963 997 843 565</a>
+    </div>
+  </header>
+
+  <!-- Contenu principal -->
+  <div class="gallery-content">
+    <!-- Titre -->
+    <div class="gallery-hero">
+      <h1>NOTRE COLLECTION EXCLUSIVE</h1>
+      <p>Découvrez notre sélection de véhicules haut de gamme pour toutes vos occasions</p>
+    </div>
+
+    <!-- Filtres -->
+    <div class="gallery-filters">
+      <button 
+        [class.active]="selectedFilter === 'all'" 
+        (click)="filterCars('all')">
+        Tous les véhicules
+      </button>
+      <button 
+        [class.active]="selectedFilter === 'suv'" 
+        (click)="filterCars('suv')">
+        SUV
+      </button>
+      <button 
+        [class.active]="selectedFilter === 'sedan'" 
+        (click)="filterCars('sedan')">
+        Berlines
+      </button>
+      <button 
+        [class.active]="selectedFilter === 'sport'" 
+        (click)="filterCars('sport')">
+        Sportives
+      </button>
+      <button 
+        [class.active]="selectedFilter === 'luxury'" 
+        (click)="filterCars('luxury')">
+        Luxury
+      </button>
+    </div>
+
+    <!-- Écran de chargement -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement de notre collection...</p>
+    </div>
+
+    <!-- Grille des voitures -->
+    <div *ngIf="!isLoading" class="gallery-grid">
+      <div class="gallery-item" *ngFor="let car of filteredCars">
+        <div class="car-image-container">
+          <img
+            [src]="'http://localhost:8080' + car.imageUrl"
+            [alt]="car.model"
+            class="gallery-image"
+            (error)="onImageError($event)"
+          />
+
+          <!-- Overlay au survol -->
+          <div class="gallery-overlay">
+            <div class="overlay-content">
+              <h4>{{ car.brand }} {{ car.model }}</h4>
+              <p>{{ car.year }} • {{ car.fuelType }} • {{ car.transmission }}</p>
+              <p class="price"><strong>{{ car.price | currency:'USD':'symbol':'1.0-0' }}/jour</strong></p>
+<button class="details-btn" [routerLink]="['/car-details', car.id]">Voir détails</button>            </div>
+          </div>
+        </div>
+
+        <!-- Info en dessous -->
+        <div class="gallery-info">
+          <h5>{{ car.brand }} {{ car.model }}</h5>
+          <p>{{ car.year }} • {{ car.color }}</p>
+          <!-- Suppression des propriétés seats et doors qui n'existent pas dans Car -->
+          <div class="car-features">
+            <span>{{ car.fuelType }}</span>
+            <span>{{ car.transmission }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aucune voiture -->
+    <div *ngIf="!isLoading && filteredCars.length === 0" class="no-cars">
+      <p>Aucune voiture disponible dans cette catégorie.</p>
+    </div>
+  </div>
+</div>

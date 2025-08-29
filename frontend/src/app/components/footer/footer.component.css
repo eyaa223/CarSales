@@ -1,0 +1,22 @@
+.fixed-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #000;
+  color: #ccc;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 0.9rem;
+  border-top: 1px solid #333;
+  z-index: 999;
+}
+
+.footer-content {
+  letter-spacing: 0.5px;
+}
+
+/* Espace pour ne pas cacher le contenu */
+body, app-root, .main-content {
+  padding-bottom: 60px;
+}

@@ -1,0 +1,83 @@
+<!-- src/app/pages/add-car/add-car.component.html -->
+<div class="add-car-container">
+  <h2>➕ Add a New Car</h2>
+
+  <form (ngSubmit)="addCar()" #carForm="ngForm" class="car-form">
+    <!-- Row 1: Brand & Model -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Brand *</label>
+        <input type="text" name="brand" [(ngModel)]="car.brand" required />
+      </div>
+      <div class="form-group">
+        <label>Model *</label>
+        <input type="text" name="model" [(ngModel)]="car.model" required />
+      </div>
+    </div>
+
+    <!-- Row 2: Year & Mileage -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Year *</label>
+        <input type="number" name="year" [(ngModel)]="car.year" required />
+      </div>
+      <div class="form-group">
+        <label>Mileage</label>
+        <input type="number" name="mileage" [(ngModel)]="car.mileage" />
+      </div>
+    </div>
+
+    <!-- Row 3: Color & Fuel -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Color</label>
+        <input type="text" name="color" [(ngModel)]="car.color" />
+      </div>
+      <div class="form-group">
+        <label>Fuel Type</label>
+        <input type="text" name="fuelType" [(ngModel)]="car.fuelType" />
+      </div>
+    </div>
+
+    <!-- Row 4: Transmission & Price -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Transmission</label>
+        <input type="text" name="transmission" [(ngModel)]="car.transmission" />
+      </div>
+      <div class="form-group">
+        <label>Price *</label>
+        <input type="number" name="price" [(ngModel)]="car.price" required />
+      </div>
+    </div>
+
+    <!-- Description & Status -->
+    <div class="form-group">
+      <label>Description</label>
+      <textarea name="description" [(ngModel)]="car.description" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Status</label>
+      <select name="status" [(ngModel)]="car.status">
+        <option value="AVAILABLE">Available</option>
+        <option value="SOLD">Sold</option>
+        <option value="RESERVED">Reserved</option>
+      </select>
+    </div>
+
+    <!-- Upload image -->
+    <div class="form-group">
+      <label>Car Photo *</label>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" required />
+      <div *ngIf="selectedFile" class="file-info">
+        📎 {{ selectedFile.name }}
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn-submit" [disabled]="!carForm.form.valid">
+      ✅ Add Car
+    </button>
+  </form>
+</div>

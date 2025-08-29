@@ -1,0 +1,40 @@
+<div class="admin-dashboard container mt-4">
+  <h2>🛠️ Tableau de bord Admin</h2>
+
+  <div class="actions mb-4">
+    <a routerLink="/add-car" class="btn btn-success me-2">
+      ➕ Ajouter une voiture
+    </a>
+    <a routerLink="/dashboard/stats" class="btn btn-info">
+      📊 Voir les statistiques
+    </a>
+  </div>
+
+  <h3>🚗 Liste des voitures</h3>
+  <div class="row">
+    <div class="col-md-4 mb-3" *ngFor="let car of cars">
+      <div class="card h-100">
+        <img [src]="getCarImageUrl(car)" class="card-img-top" alt="{{ car.model }}" style="height: 200px; object-fit: cover;">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ car.brand }} {{ car.model }}</h5>
+          <p class="card-text flex-grow-1">
+            <strong>Prix :</strong> {{ car.price | currency }}<br>
+            <strong>Statut :</strong> {{ car.status }}
+          </p>
+          <div class="d-grid gap-2">
+            <a [routerLink]="['/dashboard/edit', car.id]" class="btn btn-warning btn-sm">
+              ✏️ Éditer
+            </a>
+            <button (click)="deleteCar(car.id)" class="btn btn-danger btn-sm">
+              🗑️ Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="cars.length === 0" class="alert alert-info">
+    Aucune voiture disponible.
+  </div>
+</div>

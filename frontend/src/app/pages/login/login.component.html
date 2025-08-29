@@ -1,0 +1,48 @@
+<!-- src/app/pages/login/login.component.html -->
+<div class="login-container">
+  <div class="login-box">
+    <h2>Connexion</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <!-- Username -->
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          [class.is-invalid]="submitted && f['username'].invalid"
+        />
+        <div *ngIf="submitted && f['username'].invalid" class="invalid-feedback">
+          Le nom d'utilisateur est obligatoire.
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="submitted && f['password'].invalid"
+        />
+        <div *ngIf="submitted && f['password'].invalid" class="invalid-feedback">
+          Le mot de passe est obligatoire.
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-block">
+        Se connecter
+      </button>
+    </form>
+
+    <!-- Lien vers l'inscription -->
+    <div class="text-center mt-3">
+      <p>Pas encore de compte ? <a routerLink="/signup">S'inscrire</a></p>
+    </div>
+  </div>
+</div>

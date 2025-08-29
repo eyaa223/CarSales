@@ -1,0 +1,110 @@
+<!-- src/app/components/car-details/car-details.component.html -->
+<div class="car-details-container">
+  <div class="car-details-content">
+    <!-- Chargement -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement des détails du véhicule...</p>
+    </div>
+
+    <!-- Détails du véhicule -->
+    <div *ngIf="!isLoading && car" class="car-details-card">
+      <!-- Image principale -->
+      <div class="car-main-image">
+        <img
+          [src]="'http://localhost:8080' + car.imageUrl"
+          [alt]="car.model"
+          (error)="onImageError($event)"
+        />
+      </div>
+
+      <!-- Informations détaillées -->
+      <div class="car-info-section">
+        <div class="car-basic-info">
+          <h1>{{ car.brand }} {{ car.model }}</h1>
+          <p class="car-year-color">{{ car.year }} • {{ car.color }}</p>
+          <div class="car-price-tag">
+            <span class="price">{{ car.price | currency:'USD':'symbol':'1.0-0' }}</span>
+            <span class="price-label">/jour</span>
+          </div>
+        </div>
+
+        <!-- Spécifications -->
+        <div class="specifications-grid">
+          <div class="spec-item">
+            <div class="spec-icon">⛽</div>
+            <div class="spec-content">
+              <span class="spec-label">Carburant</span>
+              <span class="spec-value">{{ car.fuelType }}</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon">⚙️</div>
+            <div class="spec-content">
+              <span class="spec-label">Transmission</span>
+              <span class="spec-value">{{ car.transmission }}</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon">🛣️</div>
+            <div class="spec-content">
+              <span class="spec-label">Kilométrage</span>
+              <span class="spec-value">{{ car.mileage | number }} km</span>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon">📊</div>
+            <div class="spec-content">
+              <span class="spec-label">Status</span>
+              <span class="spec-value status-{{car.status?.toLowerCase()}}">{{ car.status }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="description-section">
+          <h3>Description</h3>
+          <p>{{ car.description || 'Découvrez ce véhicule exceptionnel alliant performance et élégance. Parfait pour toutes vos occasions spéciales ou pour simplement profiter du luxe au quotidien.' }}</p>
+        </div>
+
+        <!-- QR Code -->
+        <div class="qr-code-section">
+          <h3>QR Code du véhicule</h3>
+          <div class="qr-code-container">
+            <img
+              [src]="qrCode"
+              alt="QR Code"
+              *ngIf="qrCode; else loadingQr"
+            />
+            <ng-template #loadingQr>
+              <div class="qr-placeholder">
+                <div class="qr-spinner"></div>
+                <p>Génération du QR code...</p>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="action-buttons">
+          <button (click)="addToCart()" class="add-to-cart-btn">
+            <span class="btn-icon">🛒</span>
+            Ajouter au panier
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Véhicule non trouvé -->
+    <div *ngIf="!isLoading && !car" class="not-found">
+      <div class="not-found-content">
+        <h2>Véhicule non trouvé</h2>
+        <p>Le véhicule que vous recherchez n'existe pas ou n'est plus disponible.</p>
+        <a routerLink="/gallery" class="back-to-gallery-btn">Retour à la galerie</a>
+      </div>
+    </div>
+  </div>
+</div>

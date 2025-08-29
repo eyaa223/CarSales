@@ -1,0 +1,69 @@
+<!-- src/app/pages/dashboard/stats/stats.component.html -->
+<div class="admin-stats-container" *ngIf="cars.length > 0; else loading">
+  <header class="dashboard-header">
+    <h2>📊 Statistiques des Véhicules</h2>
+  </header>
+
+  <!-- Top Cars -->
+  <section class="top-cards">
+    <div class="top-card best-seller" *ngIf="topSellingCar">
+      <h4>🏆 Meilleure vente</h4>
+      <p><strong>{{ topSellingCar.brand }} {{ topSellingCar.model }}</strong></p>
+      <small>{{ topSellingCar.soldCount }} unités vendues</small>
+    </div>
+
+    <div class="top-card expensive" *ngIf="mostExpensiveCar">
+      <h4>💰 Plus chère</h4>
+      <p><strong>{{ mostExpensiveCar.brand }} {{ mostExpensiveCar.model }}</strong></p>
+      <small>{{ mostExpensiveCar.price | number }} TND</small>
+    </div>
+  </section>
+
+  <!-- Stats Cards -->
+  <section class="stats-cards">
+    <div class="stat-card total">
+      <h3>Voitures</h3>
+      <p class="value">{{ cars.length }}</p>
+    </div>
+    <div class="stat-card avg-price">
+      <h3>Prix Moyen</h3>
+      <p class="value">{{ averagePrice | number:'1.0-0' }} TND</p>
+    </div>
+    <div class="stat-card total-value">
+      <h3>Valeur Totale</h3>
+      <p class="value">{{ totalValue | number }} TND</p>
+    </div>
+  </section>
+
+  <!-- Graphique -->
+  <section class="chart-section">
+    <h3>📊 Répartition des prix</h3>
+    <canvas #chartCanvas width="400" height="200"></canvas>
+  </section>
+
+  <!-- Liste des voitures -->
+  <section class="cars-list">
+    <h3>🚗 Flotte de voitures</h3>
+    <div class="car-grid">
+      <div class="car-card" *ngFor="let car of cars">
+        <div class="car-header">
+          <h4>{{ car.brand }} {{ car.model }}</h4>
+          <span class="status" [class.available]="car.status === 'AVAILABLE'" 
+                             [class.sold]="car.status === 'SOLD'">
+            {{ car.status }}
+          </span>
+        </div>
+        <p><strong>Prix :</strong> {{ car.price | number }} TND</p>
+        <p><strong>Ventes :</strong> {{ car.soldCount || 0 }}</p>
+        <button (click)="sellCar(car)" class="btn-sell" *ngIf="car.status === 'AVAILABLE'">
+          💰 Vendre
+        </button>
+        <span class="sold-badge" *ngIf="car.status === 'SOLD'">✔️ Vendue</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<ng-template #loading>
+  <div class="loading">🔄 Chargement des données...</div>
+</ng-template>

@@ -1,0 +1,13 @@
+/* src/app/app.component.css */
+.main-container {
+  padding: 20px;
+  min-height: calc(100vh - 100px);
+  background-color: #f9f9f9;
+}
+
+.footer {
+  background-color: #222;
+  color: #fff;
+  padding: 15px 0;
+  text-align: center;
+}

@@ -1,0 +1,12 @@
+<!-- src/app/pages/thank-you/thank-you.component.html -->
+<div class="thank-you-container">
+  <div class="thank-you-card">
+    <h1>🎉 Merci pour votre commande !</h1>
+    <p>Votre achat a été confirmé avec succès.</p>
+    <p>Nous vous contacterons bientôt pour organiser la livraison.</p>
+    <img src="assets/photos/car-delivery.png" alt="Car Delivery" class="thank-you-image" />
+
+    <button class="btn-home" (click)="goToHome()">Retour à l'accueil</button>
+    <button routerLink="/my-orders" class="btn-orders" (click)="goToMyOrders()">Voir mes commandes</button>
+  </div>
+</div>

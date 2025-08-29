@@ -1,0 +1,27 @@
+<!-- src/app/components/navbar/navbar.component.html -->
+<nav class="luxury-navbar">
+  <div class="nav-container">
+    <!-- Logo -->
+    <a class="nav-logo" routerLink="/">
+      <img src="assets/images/logo.png" alt="CarSales" />
+    </a>
+
+    <!-- Bouton retour -->
+    <button *ngIf="showBackButton" class="btn-back" (click)="goBack()">
+      ← Retour
+    </button>
+
+    <!-- Menu de droite -->
+    <div class="nav-links">
+      <a routerLink="/home" routerLinkActive="active" class="nav-btn">Home</a>
+      <a routerLink="/gallery" routerLinkActive="active" class="nav-btn">Gallery</a>
+      <a routerLink="/contact" routerLinkActive="active" class="nav-btn">Contact</a>
+      <a routerLink="/cart" routerLinkActive="active" class="nav-btn">Cart</a>
+
+      <!-- ✅ Login ou Logout selon état -->
+      <a *ngIf="!isLoggedIn()" routerLink="/login" class="nav-btn">Login</a>
+      <a *ngIf="!isLoggedIn()" routerLink="/signup" class="nav-btn">SignUp</a>
+      <button *ngIf="isLoggedIn()" (click)="logout()"  routerLink="/home" class="btn-logout"> Logout</button>
+    </div>
+  </div>
+</nav>

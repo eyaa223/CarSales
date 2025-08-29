@@ -1,0 +1,213 @@
+.admin-dashboard {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #007bff;
+}
+
+.dashboard-header h2 {
+  color: #007bff;
+  margin: 0;
+  font-size: 28px;
+}
+
+.btn-logout {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.btn-logout:hover {
+  background-color: #c82333;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section h3 {
+  color: #2c3e50;
+  border-left: 4px solid #007bff;
+  padding-left: 10px;
+  margin-bottom: 20px;
+}
+
+/* Car Grid */
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.car-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+}
+
+.car-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.car-info {
+  padding: 15px;
+}
+
+.car-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.car-info p {
+  margin: 0 0 10px 0;
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.btn-delete {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 14px;
+}
+
+.btn-delete:hover {
+  background-color: #c0392b;
+}
+
+.empty-message {
+  text-align: center;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+/* Add Car Form */
+.add-car-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+  margin-top: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+.btn-submit {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-submit:hover:not([disabled]) {
+  background-color: #0056b3;
+}
+
+.btn-submit[disabled] {
+  background-color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .admin-dashboard {
+    padding: 15px;
+    margin: 10px;
+  }
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .btn-logout {
+    align-self: flex-end;
+  }
+}
+
+
+/* Amélioration pour le input file */
+.form-control[type="file"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Label pour le fichier */
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #2c3e50;
+  display: block;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 5px;
+  transition: background-color 0.3s;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}

@@ -1,0 +1,56 @@
+<!-- src/app/pages/checkout/checkout.component.html -->
+<div class="checkout-container">
+  <h2>Finaliser la commande</h2>
+
+  <!-- Progress Bar -->
+  <div class="progress-steps">
+    <div class="step" [class.active]="currentStep >= 1">1. Informations</div>
+    <div class="step" [class.active]="currentStep >= 2">2. Livraison</div>
+    <div class="step" [class.active]="currentStep >= 3">3. Paiement</div>
+    <div class="step" [class.active]="currentStep >= 4">4. Confirmation</div>
+  </div>
+
+  <!-- Step 1: Informations -->
+  <div *ngIf="currentStep === 1" class="step-form">
+    <h3>Informations personnelles</h3>
+    <input type="text" placeholder="Nom complet" [(ngModel)]="order.customer.name" required>
+    <input type="email" placeholder="Email" [(ngModel)]="order.customer.email" required>
+    <input type="tel" placeholder="Téléphone" [(ngModel)]="order.customer.phone">
+  </div>
+
+  <!-- Step 2: Adresse -->
+  <div *ngIf="currentStep === 2" class="step-form">
+    <h3>Adresse de livraison</h3>
+    <input type="text" placeholder="Rue" [(ngModel)]="order.deliveryAddress.street" required>
+    <input type="text" placeholder="Ville" [(ngModel)]="order.deliveryAddress.city" required>
+    <input type="text" placeholder="Code postal" [(ngModel)]="order.deliveryAddress.postalCode">
+    <input type="text" placeholder="Pays" [(ngModel)]="order.deliveryAddress.country" readonly>
+  </div>
+
+  <!-- Step 3: Paiement -->
+  <div *ngIf="currentStep === 3" class="step-form">
+    <h3>Méthode de paiement</h3>
+    <label>
+      <input type="radio" name="payment" value="cash" [(ngModel)]="order.paymentMethod"> Espèces à la livraison
+    </label>
+    <label>
+      <input type="radio" name="payment" value="card" [(ngModel)]="order.paymentMethod"> Carte bancaire
+    </label>
+  </div>
+
+  <!-- Step 4: Récapitulatif -->
+  <div *ngIf="currentStep === 4" class="step-form">
+    <h3>Récapitulatif de la commande</h3>
+    <p><strong>Total :</strong> {{ order.total | number:'1.2-2' }} TND</p>
+    <p><strong>Articles :</strong> {{ order.items.length }}</p>
+    <p><strong>Adresse :</strong> {{ order.deliveryAddress.street }}, {{ order.deliveryAddress.city }}</p>
+    <p><strong>Paiement :</strong> {{ order.paymentMethod }}</p>
+  </div>
+
+  <!-- Boutons -->
+  <div class="checkout-buttons">
+    <button *ngIf="currentStep > 1" (click)="prevStep()" class="btn-back">← Retour</button>
+    <button *ngIf="currentStep < 4" (click)="nextStep()" class="btn-next">Suivant →</button>
+    <button *ngIf="currentStep === 4" (click)="confirmOrder()" class="btn-confirm">Confirmer la commande</button>
+  </div>
+</div>

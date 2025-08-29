@@ -1,0 +1,429 @@
+/* src/app/pages/gallery/gallery.component.css */
+.gallery-container {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #000;
+  color: white;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Header amélioré */
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.gallery-header.scrolled {
+  padding: 15px 50px;
+  background: rgba(0, 0, 0, 0.95);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-header .logo img {
+  height: 45px;
+  transition: all 0.3s ease;
+}
+
+.gallery-header.scrolled .logo img {
+  height: 40px;
+}
+
+.gallery-header .navbar a {
+  margin: 0 15px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.gallery-header .navbar a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #e63946;
+  transition: width 0.3s ease;
+}
+
+.gallery-header .navbar a:hover, 
+.gallery-header .navbar a.active {
+  color: #e63946;
+}
+
+.gallery-header .navbar a:hover:after,
+.gallery-header .navbar a.active:after {
+  width: 100%;
+}
+
+.gallery-header .phone a {
+  color: white;
+  text-decoration: none;
+  border: 1px solid #fff;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.gallery-header .phone a:hover {
+  background: #e63946;
+  border-color: #e63946;
+  transform: translateY(-2px);
+}
+
+/* Contenu principal */
+.gallery-content {
+  padding: 120px 50px 50px;
+}
+
+/* Hero section */
+.gallery-hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.gallery-hero h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.gallery-hero p {
+  font-size: 1.2rem;
+  color: #ccc;
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Filtres */
+.gallery-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.gallery-filters button {
+  padding: 10px 20px;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.gallery-filters button:hover,
+.gallery-filters button.active {
+  background: #e63946;
+  border-color: #e63946;
+  transform: translateY(-2px);
+}
+
+/* Écran de chargement */
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #ccc;
+}
+
+.loading .spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #e63946;
+  animation: spin 1s ease-in-out infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading p {
+  font-size: 1.1rem;
+}
+
+/* Grille des voitures */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.gallery-item {
+  background: #111;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(230, 57, 70, 0.2);
+}
+
+.car-image-container {
+  position: relative;
+  overflow: hidden;
+  height: 250px;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover .gallery-image {
+  transform: scale(1.05);
+}
+
+/* Overlay au survol */
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.overlay-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.overlay-content h4 {
+  margin: 0 0 10px;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.overlay-content p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.overlay-content .price {
+  font-size: 1.3rem;
+  color: #e63946;
+  margin: 15px 0;
+}
+
+.details-btn {
+  padding: 10px 25px;
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  margin-top: 15px;
+}
+
+.details-btn:hover {
+  background: #e63946;
+  border-color: #e63946;
+  transform: translateY(-2px);
+}
+
+/* Info sous l'image */
+.gallery-info {
+  padding: 20px;
+  background: #111;
+}
+
+.gallery-info h5 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.gallery-info p {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.car-features {
+  display: flex;
+  gap: 15px;
+}
+
+.car-features span {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+/* Aucune voiture */
+.no-cars {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 60px 20px;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .gallery-content {
+    padding: 110px 30px 40px;
+  }
+  
+  .gallery-hero h1 {
+    font-size: 2.3rem;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-header {
+    padding: 15px 20px;
+  }
+  
+  .gallery-header.scrolled {
+    padding: 12px 20px;
+  }
+  
+  .gallery-header .navbar a {
+    margin: 0 10px;
+    font-size: 0.85rem;
+  }
+  
+  .gallery-content {
+    padding: 100px 20px 30px;
+  }
+  
+  .gallery-hero h1 {
+    font-size: 2rem;
+  }
+
+  .gallery-hero p {
+    font-size: 1.1rem;
+  }
+  
+  .gallery-filters {
+    gap: 10px;
+  }
+  
+  .gallery-filters button {
+    padding: 8px 15px;
+    font-size: 0.8rem;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .gallery-header {
+    flex-direction: column;
+    padding: 15px;
+  }
+  
+  .gallery-header.scrolled {
+    padding: 10px 15px;
+  }
+  
+  .gallery-header .logo {
+    margin-bottom: 10px;
+  }
+  
+  .gallery-header .logo img {
+    height: 35px;
+  }
+  
+  .gallery-header .navbar {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .gallery-header .navbar a {
+    margin: 5px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .gallery-content {
+    padding: 140px 15px 25px;
+  }
+  
+  .gallery-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .gallery-hero p {
+    font-size: 1rem;
+  }
+  
+  .gallery-filters {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .gallery-filters button {
+    width: 200px;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .car-features {
+    justify-content: center;
+  }
+}

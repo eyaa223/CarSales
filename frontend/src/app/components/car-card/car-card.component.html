@@ -1,0 +1,30 @@
+<div class="card mb-3 shadow-sm">
+  <img
+    [src]="getImageUrl()"
+    class="card-img-top"
+    [alt]="car.model"
+    style="height: 200px; object-fit: cover;"
+  />
+  <div class="card-body">
+    <h5 class="card-title">{{ car.brand }} {{ car.model }}</h5>
+    <p class="card-text"><strong>Année :</strong> {{ car.year }}</p>
+    <p class="card-text"><strong>Prix :</strong> {{ car.price | currency:'USD' }}</p>
+
+    <div class="text-center my-2">
+      <div *ngIf="isLoadingQr">
+        <small>Génération QR code...</small>
+      </div>
+      <img *ngIf="!isLoadingQr && qrCode" [src]="qrCode" alt="QR Code" style="width: 100px; height: 100px;" />
+    </div>
+
+    <div class="d-grid gap-2">
+      <button class="btn btn-success" (click)="addToCart()">
+        🛒 Ajouter au panier
+      </button>
+
+      <button *ngIf="isAdmin()" class="btn btn-danger" (click)="deleteCar()">
+        ❌ Supprimer
+      </button>
+    </div>
+  </div>
+</div>

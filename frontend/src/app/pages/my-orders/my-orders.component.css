@@ -1,0 +1,67 @@
+/* src/app/pages/my-orders/my-orders.component.css */
+.orders-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.orders-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+  font-size: 1.1rem;
+  padding: 40px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+
+.order-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.order-card h3 {
+  color: #e63946;
+  margin-top: 0;
+}
+
+.order-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.order-card li {
+  padding: 5px 0;
+}
+
+.status {
+  color: #e63946;
+  font-weight: 600;
+}
+
+.btn-home {
+  display: block;
+  margin: 30px auto 0;
+  padding: 12px 30px;
+  background: #e63946;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-home:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}

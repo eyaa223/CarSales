@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚗 Galerie de Voitures</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+    .form-section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 2px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .btn-delete {
+      background: #dc3545;
+    }
+    .btn-delete:hover {
+      background: #c82333;
+    }
+    .car-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+      margin: 15px 0;
+      max-width: 600px;
+    }
+    .car-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    .qrcode {
+      width: 150px;
+      height: 150px;
+      margin-top: 10px;
+      border: 1px dashed #ccc;
+    }
+    .price {
+      font-size: 1.4em;
+      color: #e63946;
+      font-weight: bold;
+    }
+    .no-cars {
+      font-style: italic;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Formulaire d'ajout -->
+    <section class="form-section">
+      <h2>➕ Ajouter une voiture</h2>
+      <form id="addCarForm">
+        <div class="form-group">
+          <label>Marque :</label>
+          <input type="text" id="make" required>
+        </div>
+        <div class="form-group">
+          <label>Modèle :</label>
+          <input type="text" id="model" required>
+        </div>
+        <div class="form-group">
+          <label>Année :</label>
+          <input type="number" id="year" required>
+        </div>
+        <div class="form-group">
+          <label>Couleur :</label>
+          <input type="text" id="color">
+        </div>
+        <div class="form-group">
+          <label>Kilométrage :</label>
+          <input type="number" id="mileage">
+        </div>
+        <div class="form-group">
+          <label>Carburant :</label>
+          <input type="text" id="fuelType" list="fuelTypes">
+          <datalist id="fuelTypes">
+            <option value="GASOLINE">
+            <option value="DIESEL">
+            <option value="ELECTRIC">
+            <option value="HYBRID">
+            <option value="PLUG_IN_HYBRID">
+          </datalist>
+        </div>
+        <div class="form-group">
+          <label>Transmission :</label>
+          <input type="text" id="transmission" list="transmissions">
+          <datalist id="transmissions">
+            <option value="MANUAL">
+            <option value="AUTOMATIC">
+            <option value="SEMI_AUTOMATIC">
+          </datalist>
+        </div>
+        <div class="form-group">
+          <label>Prix (€) :</label>
+          <input type="number" step="0.01" id="price" required>
+        </div>
+        <div class="form-group">
+          <label>Image :</label>
+          <select id="imageSelect" required>
+            <option value="">Sélectionner une image</option>
+          </select>
+        </div>
+        <button type="submit">Ajouter la voiture</button>
+      </form>
+    </section>
+
+    <!-- Liste des voitures -->
+    <h1>🚗 Galerie de Voitures</h1>
+    <p>Chargement des voitures depuis l'API...</p>
+    <div id="cars-container"></div>
+  </div>
+
+  <script>
+    // Liste des images disponibles
+    const availableImages = [
+        "audiA4.jpg",
+      "tesla-model3.jpg",
+      "bmwX5.png",
+      "mercedes-c-class.jpg",
+      "ford-mustang.jpeg",
+      "peugeot-208.webp",
+      "toyota.jpg"
+      // 🔁 Mets ici tous les noms de tes fichiers dans /images
+    ];
+
+    // Remplir le <select> avec les images
+    const imageSelect = document.getElementById("imageSelect");
+    availableImages.forEach(img => {
+      const option = document.createElement("option");
+      option.value = `/images/${img}`;
+      option.textContent = img;
+      imageSelect.appendChild(option);
+    });
+
+    // Charger les voitures
+    function loadCars() {
+      fetch('/api/cars')
+        .then(response => {
+          if (!response.ok) throw new Error('API inaccessible');
+          return response.json();
+        })
+        .then(cars => {
+          const container = document.getElementById('cars-container');
+          if (!cars || cars.length === 0) {
+            container.innerHTML = '<p class="no-cars">Aucune voiture disponible.</p>';
+            return;
+          }
+
+          container.innerHTML = '';
+          cars.forEach(car => {
+            const make = car.make || 'Inconnu';
+            const model = car.model || 'Inconnu';
+            const year = car.year || 'N/A';
+            const color = car.color || 'N/A';
+            const fuelType = car.fuelType || 'N/A';
+            const transmission = car.transmission || 'N/A';
+            const price = car.price ? new Intl.NumberFormat('fr-FR').format(car.price) : 'N/A';
+            let imageUrl = car.imageUrl || '';
+            if (!imageUrl.trim()) {
+              imageUrl = 'https://via.placeholder.com/600x250?text=Pas+d%27image';
+            }
+
+            // 🔍 Générer l'URL du QR code
+            const qrCodeUrl = `/api/cars/${car.id}/qrcode`;
+
+            const carDiv = document.createElement('div');
+            carDiv.className = 'car-card';
+            carDiv.innerHTML = `
+              <h2>${make} ${model}</h2>
+              <p><strong>Année :</strong> ${year}</p>
+              <p><strong>Couleur :</strong> ${color}</p>
+              <p><strong>Carburant :</strong> ${fuelType}</p>
+              <p><strong>Transmission :</strong> ${transmission}</p>
+              <p class="price">${price} €</p>
+              <img class="car-image" src="${imageUrl}" alt="${make} ${model}" onerror="this.src='https://via.placeholder.com/600x250?text=Image+non+trouvée'; this.onerror=null;" />
+              <div>
+                <h4>QR Code (lien vers la fiche)</h4>
+                <img class="qrcode" src="${qrCodeUrl}" alt="QR Code" onerror="this.src='https://via.placeholder.com/150?text=QR+error'; this.onerror=null;" />
+              </div>
+              <button class="btn-delete" onclick="deleteCar(${car.id})">🗑️ Supprimer</button>
+            `;
+            container.appendChild(carDiv);
+          });
+        })
+        .catch(err => {
+          document.getElementById('cars-container').innerHTML = 
+            '<p style="color:red;">Erreur : Impossible de charger les données.</p>';
+        });
+    }
+
+    // 🔥 Supprimer une voiture
+    function deleteCar(id) {
+      if (!confirm("Voulez-vous vraiment supprimer cette voiture ?")) return;
+
+      fetch(`/api/cars/${id}`, {
+        method: 'DELETE'
+      })
+      .then(() => {
+        alert("Voiture supprimée !");
+        loadCars(); // Recharger la liste
+      })
+      .catch(err => {
+        alert("Erreur lors de la suppression.");
+      });
+    }
+
+    // 📝 Ajouter une voiture
+    document.getElementById("addCarForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const newCar = {
+        make: document.getElementById("make").value,
+        model: document.getElementById("model").value,
+        year: parseInt(document.getElementById("year").value),
+        color: document.getElementById("color").value,
+        fuelType: document.getElementById("fuelType").value,
+        transmission: document.getElementById("transmission").value,
+        mileage: parseInt(document.getElementById("mileage").value) || null,
+        price: parseFloat(document.getElementById("price").value),
+        imageUrl: document.getElementById("imageSelect").value
+      };
+
+      fetch('/api/cars', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCar)
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Échec ajout');
+        return response.json();
+      })
+      .then(() => {
+        this.reset();
+        loadCars(); // Rafraîchir
+      })
+      .catch(err => alert('Erreur : ' + err.message));
+    });
+
+    // 🚀 Charger au démarrage
+    loadCars();
+  </script>
+</body>
+</html>

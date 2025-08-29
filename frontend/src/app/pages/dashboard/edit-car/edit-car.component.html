@@ -1,0 +1,89 @@
+<!-- src/app/pages/dashboard/edit-car/edit-car.component.html -->
+<div *ngIf="isLoading" class="loading">Chargement des détails de la voiture...</div>
+
+<div *ngIf="!isLoading" class="edit-car-container">
+  <h2>✏️ Modifier la voiture</h2>
+
+  <form (ngSubmit)="saveCar()" class="car-form">
+    <!-- Ligne 1 : Marque & Modèle -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Marque *</label>
+        <input type="text" name="brand" [(ngModel)]="car.brand" required />
+      </div>
+      <div class="form-group">
+        <label>Modèle *</label>
+        <input type="text" name="model" [(ngModel)]="car.model" required />
+      </div>
+    </div>
+
+    <!-- Ligne 2 : Année & Prix -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Année *</label>
+        <input type="number" name="year" [(ngModel)]="car.year" required />
+      </div>
+      <div class="form-group">
+        <label>Prix *</label>
+        <input type="number" name="price" [(ngModel)]="car.price" required />
+      </div>
+    </div>
+
+    <!-- Ligne 3 : Kilométrage & Statut -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Kilométrage</label>
+        <input type="number" name="mileage" [(ngModel)]="car.mileage" />
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select name="status" [(ngModel)]="car.status">
+          <option value="AVAILABLE">Disponible</option>
+          <option value="SOLD">Vendue</option>
+          <option value="RESERVED">Réservée</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Autres champs -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Carburant</label>
+        <input type="text" name="fuelType" [(ngModel)]="car.fuelType" />
+      </div>
+      <div class="form-group">
+        <label>Transmission</label>
+        <input type="text" name="transmission" [(ngModel)]="car.transmission" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Couleur</label>
+      <input type="text" name="color" [(ngModel)]="car.color" />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea name="description" [(ngModel)]="car.description" rows="3"></textarea>
+    </div>
+
+    <!-- Upload image -->
+    <div class="form-group">
+      <label>Photo de la voiture</label>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+      <div *ngIf="selectedFile" class="file-info">
+        📎 {{ selectedFile.name }}
+      </div>
+      <div *ngIf="car.imageUrl" class="current-image">
+        <p>Photo actuelle :</p>
+        <img [src]="'http://localhost:8080' + car.imageUrl" alt="Current car" style="height: 120px; object-fit: cover; border-radius: 10px;" />
+      </div>
+    </div>
+
+    <!-- Bouton -->
+    <button type="submit" class="btn-submit" [disabled]="isLoading">
+      <span *ngIf="!isLoading">💾 Enregistrer les modifications</span>
+      <span *ngIf="isLoading">🔄 Enregistrement...</span>
+    </button>
+  </form>
+</div>
